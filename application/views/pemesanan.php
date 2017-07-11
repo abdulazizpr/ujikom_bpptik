@@ -76,6 +76,10 @@
                     <input type="email" name="email_pemesanan" placeholder="Alamat Email"/>
                     <input type="submit" value="Kirim Pesanan"/>
                     </form>
+                    </br>
+                   
             <?php } ?>
+            </br>
+             <a href="<?php echo site_url();?>">Kembali ke halaman awal</a>
     </body>
 </html>

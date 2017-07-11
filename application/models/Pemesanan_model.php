@@ -40,6 +40,26 @@ class Pemesanan_model extends CI_Model {
         return $this->db->get();
     }
 
+    public function select_group(){
+        $this->db->select('*');
+        $this->db->select_sum('aap_jumlah_pemesanan', 'jumlah');
+        $this->db->select_sum('aap_harga', 'total_bayar');
+        $this->db->from('aap_pemesanan');
+        $this->db->join('aap_buku', 'aap_buku.aap_kode_buku = aap_pemesanan.aap_kode_buku');
+        $this->db->group_by('aap_email_pemesanan');
+
+        return $this->db->get();
+    }
+
+    public function select_email($email){
+        $this->db->select('*');
+        $this->db->from('aap_pemesanan');
+        $this->db->where('aap_email_pemesanan',$email);
+        $this->db->limit(1);
+
+        return $this->db->get();
+    }
+
     public function select_email_tgl($email_pemesanan,$tgl_pemesanan){
         $this->db->select('*');
         $this->db->from('aap_pemesanan');
@@ -59,5 +79,9 @@ class Pemesanan_model extends CI_Model {
         $this->db->update('aap_pemesanan',$data);
     }
 
+    public function update_kode_bayar($email,$data){
+        $this->db->where('aap_email_pemesanan',$email);
+        $this->db->update('aap_pemesanan',$data);
+    }
 
 }

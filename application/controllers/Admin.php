@@ -6,6 +6,7 @@ class Admin extends CI_Controller {
 	public function __construct(){
 		parent::__construct();
 		$this->load->model('buku_model');
+		$this->load->model('pemesanan_model');
 
         //cek session login
         if(!$this->session->userdata('logged_in')){
@@ -16,7 +17,9 @@ class Admin extends CI_Controller {
 
 	public function index(){
         $data['buku'] = $this->buku_model->select_all()->result();
-		$this->load->view('admin',$data);
+        $data['pemesanan'] = $this->pemesanan_model->select_group()->result();
+		
+        $this->load->view('admin',$data);
 	}
 	
     
@@ -91,7 +94,19 @@ class Admin extends CI_Controller {
         redirect(site_url('admin'));
     }
 
+    public function ubah_status(){
+        $email = $_GET['email'];
+        if(!$this->input->post()){
+            $data['pemesanan'] = $this->pemesanan_model->select_email($email)->row();
+            $this->load->view('ubah_status_pemesanan',$data);
+        }else{
+            $data['aap_keterangan'] = $this->input->post('keterangan');
+            $data['aap_kode_bayar'] = $this->input->post('kode_bayar');
 
+            $this->pemesanan_model->update_kode_bayar($email,$data);
+            redirect(site_url('admin'));
+        }
+    }
 	
 
 }

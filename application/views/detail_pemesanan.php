@@ -36,20 +36,21 @@
         <p>Buku yang dipesan : </p>
         <table border=1>
             <tr>
-                <td>No.</td>
-                <td>Kode Pembayaran</td>
-                <td>Judul Buku</td>
-                <td>Pengarang</td>
-                <td>Penerbit</td>
-                <td>Tahun</td>
-                <td>Harga</td>
-                <td>Jumlah Buku Yang di Pesan</td>
-                <td>Total Harga</td>
-                <td>Diskon 1</td>
-                <td>Diskon 2</td>
-                <td>Diskon 3</td>
+                <th>No.</th>
+                <th>Kode Pembayaran</th>
+                <th>Judul Buku</th>
+                <th>Pengarang</th>
+                <th>Penerbit</th>
+                <th>Tahun</th>
+                <th>Harga</th>
+                <th>Jumlah</th>
+                <th>Total Harga</th>
+                <th>Diskon 1</th>
+                <th>Diskon 2</th>
+                <th>Diskon 3</th>
+                <th>Total Pembayaran</th>
             </tr>
-            <?php $i=1; foreach($pemesanan as $row){ ?>
+            <?php $total_keseluruhan=0; $i=1; foreach($pemesanan as $row){ ?>
             <tr>
                 <td><?php echo $i ?></td>
                 <td><?php echo $row->aap_kode_pemesanan; ?></td>
@@ -61,17 +62,58 @@
                 <td><?php echo $row->aap_jumlah_pemesanan; ?></td>
                 <td><?php 
                         $total_harga = $row->aap_harga * $row->aap_jumlah_pemesanan;
-                         echo $total_harga;
+                         echo "Rp ".number_format($total_harga,2,',','.');
                     ?>
                 </td>
                 <td>
                     <?php
                            $durasi_tahun = $tahun_sekarang - $row->aap_tahun_terbit;
-                           echo $durasi_tahun;                                         
+                           if($durasi_tahun > 0 && $durasi_tahun <= 10){
+                               $diskon1 = 0.005 * $total_harga;
+                           }else{
+                               $diskon1 = 0 *$total_harga;
+                           }
+
+                           echo "Rp ".number_format($diskon1,2,',','.');                                         
+                    ?>
+                </td>
+                <td>
+                    <?php 
+                        if($row->aap_jumlah_pemesanan >= 20 && $row->aap_jumlah_pemesanan < 40){
+                            $diskon2 = 0.02 * $total_harga;
+                        }else if($row->aap_jumlah_pemesanan >= 40){
+                            $diskon2 = 0.04 * $total_harga;
+                        }else{
+                            $diskon2 = 0 * $total_harga;
+                        }
+
+                        echo "Rp ".number_format($diskon2,2,',','.');
+                    ?>
+                </td>
+                <td>
+                    <?php 
+                        if(count($pemesanan) <= 5){
+                            $diskon3 = (0.01 * count($pemesanan)) * $total_harga; 
+                        }else{
+                            $diskon3 = 0.05 * $total_harga;
+                        }
+
+                        echo "Rp ".number_format($diskon3,2,',','.');
+                    ?>
+                </td>
+                <td>
+                    <?php 
+                        $total_pembayaran = $total_harga - ($diskon1+$diskon2+$diskon3);
+                        $total_keseluruhan = $total_keseluruhan + $total_pembayaran;
+                        echo "Rp ".number_format($total_pembayaran,2,',','.');
                     ?>
                 </td>
             </tr>
             <?php $i++; } ?>
+            <tr>
+                <td colspan=12><b>Total Bayar Keseluruhan</b></td>
+                <td><?php echo "Rp ".number_format($total_keseluruhan,2,',','.'); ?></td>
+            </tr>
         </table>
         <?php
             }else{
