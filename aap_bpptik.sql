@@ -10,47 +10,10 @@ Target Server Type    : MYSQL
 Target Server Version : 100113
 File Encoding         : 65001
 
-Date: 2017-07-11 12:25:55
+Date: 2017-07-11 22:16:13
 */
 
 SET FOREIGN_KEY_CHECKS=0;
-
--- ----------------------------
--- Table structure for aap_buku
--- ----------------------------
-DROP TABLE IF EXISTS `aap_buku`;
-CREATE TABLE `aap_buku` (
-  `aap_kode_buku` varchar(8) NOT NULL,
-  `aap_judul_buku` varchar(100) NOT NULL,
-  `aap_pengarang` varchar(100) NOT NULL,
-  `aap_penerbit` varchar(100) NOT NULL,
-  `aap_tahun_terbit` varchar(4) NOT NULL,
-  `aap_harga` int(11) NOT NULL,
-  PRIMARY KEY (`aap_kode_buku`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- ----------------------------
--- Records of aap_buku
--- ----------------------------
-INSERT INTO `aap_buku` VALUES ('BK001', 'Algoritma dan Pemrograman', 'Rosa Ariani Sukamto', 'Informatika', '2014', '35000');
-INSERT INTO `aap_buku` VALUES ('BK002', 'Basis Data', 'Maman Abdurahman', 'Informatika', '2015', '50000');
-INSERT INTO `aap_buku` VALUES ('BK003', 'Biologi', 'Sutrisna', 'Erlangga', '2002', '35000');
-
--- ----------------------------
--- Table structure for aap_login
--- ----------------------------
-DROP TABLE IF EXISTS `aap_login`;
-CREATE TABLE `aap_login` (
-  `aap_id` int(11) NOT NULL AUTO_INCREMENT,
-  `aap_username` varchar(20) NOT NULL,
-  `aap_password` varchar(255) NOT NULL,
-  PRIMARY KEY (`aap_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
-
--- ----------------------------
--- Records of aap_login
--- ----------------------------
-INSERT INTO `aap_login` VALUES ('1', 'admin', 'admin');
 
 -- ----------------------------
 -- Table structure for aap_pemesanan
@@ -63,11 +26,20 @@ CREATE TABLE `aap_pemesanan` (
   `aap_kode_buku` varchar(8) NOT NULL,
   `aap_jumlah_pemesanan` int(11) NOT NULL,
   `aap_keterangan` varchar(255) DEFAULT NULL,
-  `kode_bayar` int(11) NOT NULL,
-  PRIMARY KEY (`aap_kode_pemesanan`)
+  `aap_kode_bayar` int(11) NOT NULL,
+  PRIMARY KEY (`aap_kode_pemesanan`),
+  KEY `fk_kode_buku` (`aap_kode_buku`),
+  CONSTRAINT `fk_kode_buku` FOREIGN KEY (`aap_kode_buku`) REFERENCES `aap_buku` (`aap_kode_buku`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of aap_pemesanan
 -- ----------------------------
+INSERT INTO `aap_pemesanan` VALUES ('TRX001', '2017-07-11', 'abdulazizpriatna@gmail.com', 'BK001', '8', 'Bayar Lunas', '1');
+INSERT INTO `aap_pemesanan` VALUES ('TRX002', '2017-07-11', 'abdulazizpriatna@gmail.com', 'BK002', '10', 'Bayar Lunas', '1');
+INSERT INTO `aap_pemesanan` VALUES ('TRX003', '2017-07-11', 'abdulazizpriatna@gmail.com', 'BK003', '52', 'Bayar Lunas', '1');
+INSERT INTO `aap_pemesanan` VALUES ('TRX004', '2017-07-11', 'abdulazizpriatna@gmail.com', 'BK004', '15', 'Bayar Lunas', '1');
+INSERT INTO `aap_pemesanan` VALUES ('TRX005', '2017-07-11', 'abdulazizpriatna@gmail.com', 'BK005', '25', 'Bayar Lunas', '1');
+INSERT INTO `aap_pemesanan` VALUES ('TRX006', '2017-07-11', 'abdulazizpriatna@gmail.com', 'BK006', '2', 'Bayar Lunas', '1');
+INSERT INTO `aap_pemesanan` VALUES ('TRX007', '2017-07-11', 'toto@gmail.com', 'BK001', '4', null, '0');
 SET FOREIGN_KEY_CHECKS=1;
