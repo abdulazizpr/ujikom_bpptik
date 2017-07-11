@@ -14,6 +14,7 @@ class Pemesanan_model extends CI_Model {
         return $this->db->get();
     }
 
+    //select 1 data
     public function select_one($kode_pemesanan){
         $this->db->select('*');
         $this->db->from('aap_pemesanan');
@@ -22,6 +23,7 @@ class Pemesanan_model extends CI_Model {
         return $this->db->get();
     }
 
+    //select data terakhir
     public function select_last(){
         $this->db->select('*');
         $this->db->from('aap_pemesanan');
@@ -31,6 +33,7 @@ class Pemesanan_model extends CI_Model {
         return $this->db->get();
     }
 
+    //select pemesanan
     public function select_pemesanan($email_pemesanan){
         $this->db->select('*');
         $this->db->from('aap_pemesanan');
@@ -40,6 +43,7 @@ class Pemesanan_model extends CI_Model {
         return $this->db->get();
     }
 
+    //select group
     public function select_group(){
         $this->db->select('*');
         $this->db->select_sum('aap_jumlah_pemesanan', 'jumlah');
@@ -51,6 +55,8 @@ class Pemesanan_model extends CI_Model {
         return $this->db->get();
     }
 
+
+    //select email
     public function select_email($email){
         $this->db->select('*');
         $this->db->from('aap_pemesanan');
@@ -60,6 +66,7 @@ class Pemesanan_model extends CI_Model {
         return $this->db->get();
     }
 
+    //select email & tanggal
     public function select_email_tgl($email_pemesanan,$tgl_pemesanan){
         $this->db->select('*');
         $this->db->from('aap_pemesanan');
@@ -70,15 +77,18 @@ class Pemesanan_model extends CI_Model {
         return $this->db->get();
     }
 
+    //insert data
     public function insert($data){
         $this->db->insert('aap_pemesanan',$data);
     }
     
+    //update data
     public function update($kode_pemesanan,$data){
         $this->db->where('aap_kode_pemesanan',$kode_pemesanan);
         $this->db->update('aap_pemesanan',$data);
     }
 
+    //update kode pembayaran
     public function update_kode_bayar($email,$data){
         $this->db->where('aap_email_pemesanan',$email);
         $this->db->update('aap_pemesanan',$data);

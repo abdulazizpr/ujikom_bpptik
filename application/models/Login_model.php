@@ -2,6 +2,7 @@
 
 class Login_model extends CI_Model {
     
+    //konstruktor
     function __construct(){
         parent::__construct();
     }
